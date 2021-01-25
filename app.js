@@ -23,7 +23,7 @@ app.use(
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization','Cookie','Access-Control-Allow-Origin'],
     maxAge: 5,
     credentials: true,
-    allowMethods: ['GET', 'POST', 'DELETE','post'],
+    allowMethods: ['GET', 'POST', 'DELETE','post','OPTIONS'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept','Set-Cookie','Access-Control-Allow-Origin']
   })
 );
