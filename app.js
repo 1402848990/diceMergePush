@@ -15,7 +15,8 @@ app.proxy = true;
 // 配置跨域
 app.use(
   cors({
-    origin: () => {
+    origin: (ctx) => {
+      console.log('ctx---',ctx)
       // 允许跨域的地址
       return '*';
     },
