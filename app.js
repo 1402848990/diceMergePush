@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: () => {
       // 允许跨域的地址
-      return 'http://localhost:3000';
+      return '*';
     },
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization','Cookie','Access-Control-Allow-Origin'],
     maxAge: 5,
