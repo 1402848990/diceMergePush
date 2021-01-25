@@ -18,18 +18,18 @@ const DINGURL = 'https://oapi.dingtalk.com/robot/send?access_token=0fbb33bd0214c
 router.post('/push', async (ctx) => {
   try {
     const { body: request } = ctx.request
-    if (Object.keys(request).length > 0) {
-      const res = await axios.post(
-        DINGURL,
-        {
-          msgtype: 'text',
-          text: {
-            content: 'test',
-          },
-        }
-      )
-      console.log('res', res)
-    }
+    // if (Object.keys(request).length > 0) {
+    //   const res = await axios.post(
+    //     DINGURL,
+    //     {
+    //       msgtype: 'text',
+    //       text: {
+    //         content: 'test',
+    //       },
+    //     }
+    //   )
+    //   console.log('res', res)
+    // }
     console.log('request', request)
 
     ctx.status = 200
