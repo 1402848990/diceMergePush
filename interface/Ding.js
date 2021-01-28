@@ -50,7 +50,7 @@ router.post('/push', async (ctx) => {
     const { body: request } = ctx.request
     const { senderNick, text: { content } = {} } = request
      // 随机一个指定人
-    const atMobiles = [_.sample(members.filter(item=>item.name!==senderNick))]
+    const atMobiles = _.sample(members.filter(item=>item.name!==senderNick))
     console.log('request', request)
     if(content.includes('ok')){
       if (Object.keys(request).length > 0) {
