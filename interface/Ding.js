@@ -52,7 +52,7 @@ router.post('/push', async (ctx) => {
      // 随机一个指定人
     const atMobiles = [_.sample(members.filter(item=>item.name!==senderNick))]
     console.log('request', request)
-    if(content==='1'){
+    if(content==='ok'){
       if (Object.keys(request).length > 0) {
         const res = await axios({
           url,
