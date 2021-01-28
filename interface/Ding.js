@@ -41,7 +41,6 @@ const createSign = (timestamp) => {
  */
 router.post('/push', async (ctx) => {
   const timestamp = Date.now()
-  console.log('timestamp', timestamp)
   const url = `${DINGURL}?access_token=${access_token}&timestamp=${timestamp}&sign=${createSign(
     timestamp
   )}`
@@ -49,10 +48,14 @@ router.post('/push', async (ctx) => {
   try {
     const { body: request } = ctx.request
     const { senderNick, text: { content } = {} } = request
-     // 随机一个指定人
-    const atMobiles = _.sample(members.filter(item=>item.name!==senderNick))
     console.log('request', request)
-    if(content.includes('ok')){
+    if (content && content.includes('ok')) {
+      // 随机一个指定人
+      const handleMembers = members.filter(
+        (item) => item.name !== senderNick.replace(/\s+/g, '')
+      )
+      const atMobiles = _.sample(handleMembers)
+      console.log('atMobiles', atMobiles)
       if (Object.keys(request).length > 0) {
         const res = await axios({
           url,
@@ -60,10 +63,10 @@ router.post('/push', async (ctx) => {
           data: {
             msgtype: 'text',
             text: {
-              content: `请${atMobiles.name}去处理${senderNick}的合并请求！`,
+              content: `请【${atMobiles.name}】去处理【${senderNick}】的合并请求！`,
             },
             at: {
-              atMobiles:[atMobiles.phone],
+              atMobiles: [atMobiles.phone],
               isAtAll: false,
             },
           },
