@@ -63,7 +63,7 @@ router.post('/push', async (ctx) => {
               content: `请${atMobiles.name}去处理${senderNick}的合并请求！`,
             },
             at: {
-              atMobiles:atMobiles.phone,
+              atMobiles:[atMobiles.phone],
               isAtAll: false,
             },
           },
