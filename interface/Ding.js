@@ -2,30 +2,12 @@ const _ = require('lodash')
 const axios = require('axios')
 const router = require('koa-router')()
 const crypto = require('crypto')
-
-// 钉钉地址
-const DINGURL = 'https://oapi.dingtalk.com/robot/send'
-// 成员
-const members = [
-  {
-    name: '王锐',
-    phone: 15964539289,
-  },
-  {
-    name: '陈子钺',
-    phone: 15669765561,
-  },
-  {
-    name: '陈杨子',
-    phone: 13588818893,
-  },
-]
-// 秘钥
-const secret =
-  'SECd6403b2130df7b5d040880d83a207cb97bb41183393f3e90ab1130d3db744e2f'
-// access_token
-const access_token =
-  '3761daeaf05a65ddf9f471037a8db232db7aa55994bed050d464b7f87775e33c'
+const {
+  DINGURL,
+  members,
+  secret,
+  access_token,
+} = require('../config/dingConfig')
 
 // 生成签名
 const createSign = (timestamp) => {
@@ -37,9 +19,10 @@ const createSign = (timestamp) => {
 }
 
 /**
- *
+ *  @description 【大白】钉钉推送
  */
 router.post('/push', async (ctx) => {
+
   const timestamp = Date.now()
   const url = `${DINGURL}?access_token=${access_token}&timestamp=${timestamp}&sign=${createSign(
     timestamp
@@ -56,23 +39,33 @@ router.post('/push', async (ctx) => {
       )
       const atMobiles = _.sample(handleMembers)
       console.log('atMobiles', atMobiles)
-      if (Object.keys(request).length > 0) {
-        const res = await axios({
-          url,
-          method: 'post',
-          data: {
-            msgtype: 'text',
-            text: {
-              content: `请【${atMobiles.name}】去处理【${senderNick}】的合并请求！`,
-            },
-            at: {
-              atMobiles: [atMobiles.phone],
-              isAtAll: false,
-            },
+      // 执行消息推送
+      const res = await axios({
+        url,
+        method: 'post',
+        data: {
+          msgtype: 'text',
+          text: {
+            content: `请【${atMobiles.name}】去处理【${senderNick}】的合并请求！`,
           },
-        })
-        // console.log('res', res)
-      }
+          at: {
+            atMobiles: [atMobiles.phone],
+            isAtAll: false,
+          },
+        },
+      })
+      // console.log('res', res)
+    } else {
+      await axios({
+        url,
+        method: 'post',
+        data: {
+          msgtype: 'text',
+          text: {
+            content: '大白不和你玩~',
+          },
+        },
+      })
     }
     ctx.status = 200
     ctx.body = {
