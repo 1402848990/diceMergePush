@@ -50,6 +50,7 @@ router.post('/push', async (ctx) => {
 
   try {
     const { body: request } = ctx.request
+    console.log('request', request)
     if (Object.keys(request).length > 0) {
       const res = await axios({
         url,
@@ -67,8 +68,6 @@ router.post('/push', async (ctx) => {
       })
       // console.log('res', res)
     }
-    console.log('request', request)
-
     ctx.status = 200
     ctx.body = {
       success: true,
