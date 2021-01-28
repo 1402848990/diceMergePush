@@ -16,7 +16,6 @@ app.proxy = true;
 app.use(
   cors({
     origin: (ctx) => {
-      console.log('ctx---',ctx)
       // 允许跨域的地址
       return '*';
     },
@@ -42,4 +41,4 @@ router.get('/', async ctx => {
 app.use(router.routes()).use(router.allowedMethods());
 
 // server 端口号
-app.listen('80');
+app.listen('8088');

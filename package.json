@@ -28,6 +28,7 @@
     "koa-websocket": "^6.0.0",
     "koa2-cors": "^2.0.6",
     "koa2-proxy-middleware": "^0.0.4",
+    "lodash": "^4.17.20",
     "moment": "^2.24.0",
     "multer": "^1.4.2",
     "mysql2": "^2.1.0",
