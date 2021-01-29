@@ -2,10 +2,10 @@
 const DINGURL = 'https://oapi.dingtalk.com/robot/send'
 // 秘钥
 const secret =
-  'SECd6403b2130df7b5d040880d83a207cb97bb41183393f3e90ab1130d3db744e2f'
+  'SEC47134da2b1362b3268b2f204eeb7726209f09382c7e45406352312d56a5c4dca'
 // access_token
 const access_token =
-  '3761daeaf05a65ddf9f471037a8db232db7aa55994bed050d464b7f87775e33c'
+  'a129b271b028ed9d0c0056981354ed096194a87e4ab20751ce6d6cc385af76eb'
 
 module.exports = {
   DINGURL,
