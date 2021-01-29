@@ -3,9 +3,9 @@
  */
 
 module.exports = {
-  dbname: '',
+  dbname: 'bigWhite',
   username: 'root',
-  password: '123456',
-  host: 'localhost',
+  password: 'w123456W',
+  host: '117.50.94.209',
   port: '3306'
 };
