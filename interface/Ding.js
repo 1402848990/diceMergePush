@@ -7,10 +7,8 @@ const { DINGURL, secret, access_token } = require('../config/dingConfig')
 const { MembersModel } = models
 const { userQuery, userQueryOne } = require('../utils/index')
 
-const timestamp = Date.now()
-
 // 生成签名
-const createSign = () => {
+const createSign = (timestamp) => {
   const hmac = crypto.createHmac('sha256', secret)
   hmac.update(timestamp + '\n' + secret)
   const sign = encodeURIComponent(hmac.digest('base64'))
@@ -46,6 +44,7 @@ const getMemberInfo = async (senderNick) => {
  *  @description 【大白】钉钉推送
  */
 router.post('/push', async (ctx) => {
+  const timestamp = Date.now()
   const url = `${DINGURL}?access_token=${access_token}&timestamp=${timestamp}&sign=${createSign(
     timestamp
   )}`
@@ -60,7 +59,9 @@ router.post('/push', async (ctx) => {
       const handleMembers = membersList.filter(
         (item) => item.name !== senderNick.replace(/\s+/g, '')
       )
-      const actionMember = _.sample(handleMembers.slice(handleMembers.length-2))
+      const actionMember = _.sample(
+        handleMembers.slice(handleMembers.length - 2)
+      )
       console.log('actionMember', actionMember)
       // 执行消息推送
       const res = await axios({
