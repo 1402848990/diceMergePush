@@ -11,6 +11,10 @@ const MembersModel = db.configureModel('members', {
     type: db.INTEGER,
     allowNull: true,
   },
+  status: {
+    type: db.INTEGER,
+    allowNull: true,
+  },
 })
 
 module.exports = MembersModel

@@ -55,9 +55,13 @@ router.post('/push', async (ctx) => {
     console.log('request', request)
     const membersList = await getMembersList()
     if (content && content.includes('ok')) {
-      // 随机指定一个处理人
+      /**
+       * 随机指定一个处理人
+       * 1.不包括当前用户
+       * 2.不包括请假人员
+       */
       const handleMembers = membersList.filter(
-        (item) => item.name !== senderNick.replace(/\s+/g, '')
+        (item) => item.name !== senderNick.replace(/\s+/g, '')&&item.status
       )
       const actionMember = _.sample(
         handleMembers.slice(handleMembers.length - 2)
