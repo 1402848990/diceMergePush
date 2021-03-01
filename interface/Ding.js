@@ -1,11 +1,16 @@
+const SERVER_ENV = process.env.SERVER_ENV
 const _ = require('lodash')
 const axios = require('axios')
 const router = require('koa-router')()
 const crypto = require('crypto')
 const models = require('../autoScanModels')
-const { DINGURL, secret, access_token } = require('../config/dingConfig')
+const { DINGURL, secret, access_token } = require(SERVER_ENV
+  ? '../config/dingConfig'
+  : '../config/dingConfig')
 const { MembersModel } = models
 const { userQuery, userQueryOne } = require('../utils/index')
+
+console.log('process', process.env.SERVER_ENV)
 
 // 生成签名
 const createSign = (timestamp) => {
@@ -45,24 +50,33 @@ const getMemberInfo = async (senderNick) => {
  */
 router.post('/push', async (ctx) => {
   const timestamp = Date.now()
+  // 根据签名、时间戳、access_token生成url
   const url = `${DINGURL}?access_token=${access_token}&timestamp=${timestamp}&sign=${createSign(
     timestamp
   )}`
 
   try {
     const { body: request } = ctx.request
-    const { senderNick, text: { content } = {} } = request
+    const { senderNick, text: { content='' } = {} } = request
     console.log('request', request)
     const membersList = await getMembersList()
+    // 转为小写
+    content = content.toLocaleLowerCase()
+    // 提取权限
+    const level = content.split('ok')[1][0]
+    console.log('level',level)
     if (content && content.includes('ok')) {
       /**
-       * 随机指定一个处理人
+       * 不完全随机指定成员处理合并请求
        * 1.不包括当前用户
        * 2.不包括请假人员
+       * 3.根据权限匹配分组
        */
+      // 筛选符合条件的成员
       const handleMembers = membersList.filter(
-        (item) => item.name !== senderNick.replace(/\s+/g, '')&&item.status
+        (item) => item.name !== senderNick.replace(/\s+/g, '') && item.status && item.level === level
       )
+      // 生成目标成员
       const actionMember = _.sample(
         handleMembers.slice(handleMembers.length - 2)
       )
