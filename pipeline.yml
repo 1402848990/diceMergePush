@@ -1,0 +1,24 @@
+version: "1.1"
+stages:
+- stage:
+  - git-checkout:
+      alias: repo
+      description: ""
+      params:
+        depth: 1
+- stage:
+  - js:
+      alias: bp-server
+      description: ""
+      params:
+        workdir: ${git-checkout}
+        build_cmd: 'npm run build'
+        container_type: herd
+        # cpu: 1
+        # mem: 4096
+        # modules:
+        # - name: l44ixpme
+      # resources:
+      #   cpu: 3
+      #   mem: 4096
+

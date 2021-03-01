@@ -1,0 +1,17 @@
+
+version: 2.0
+services:
+  bigWhite:
+    ports: [80]
+    resources: {cpu: 0.1, mem: 768}
+    deployments: {replicas: 1}
+    expose: [80]
+    health_check:
+      http:
+        #服务开放端口,如8080
+        port: 80
+        #健康检查get请求路径，如/health 如果请求返回状态不是200健康检查不通过
+        path: /
+        #健康检查时间，超过此时间容器将被kill，如120,单位s
+        duration: 120
+
