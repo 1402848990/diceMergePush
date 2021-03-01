@@ -5,7 +5,7 @@ const router = require('koa-router')()
 const crypto = require('crypto')
 const models = require('../autoScanModels')
 const { DINGURL, secret, access_token } = require(SERVER_ENV
-  ? '../config/dingConfig'
+  ? '../config/dingConfig-test'
   : '../config/dingConfig')
 const { MembersModel } = models
 const { userQuery, userQueryOne } = require('../utils/index')
@@ -31,7 +31,7 @@ const getMembersList = async () => {
     }
   )
   const membersList = JSON.parse(JSON.stringify(res))
-  console.log('membersList', membersList)
+  // console.log('membersList', membersList)
   return membersList
 }
 
@@ -57,14 +57,14 @@ router.post('/push', async (ctx) => {
 
   try {
     const { body: request } = ctx.request
-    const { senderNick, text: { content='' } = {} } = request
+    let { senderNick, text: { content = '' } = {} } = request
     console.log('request', request)
     const membersList = await getMembersList()
     // 转为小写
     content = content.toLocaleLowerCase()
     // 提取权限
     const level = content.split('ok')[1][0]
-    console.log('level',level)
+    console.log('level', level)
     if (content && content.includes('ok')) {
       /**
        * 不完全随机指定成员处理合并请求
@@ -73,8 +73,12 @@ router.post('/push', async (ctx) => {
        * 3.根据权限匹配分组
        */
       // 筛选符合条件的成员
-      const handleMembers = membersList.filter(
-        (item) => item.name !== senderNick.replace(/\s+/g, '') && item.status && item.level === level
+      const handleMembers = membersList.filter((item) =>
+        level
+          ? item.name !== senderNick.replace(/\s+/g, '') &&
+            item.status &&
+            item.level === +level
+          : item.name !== senderNick.replace(/\s+/g, '') && item.status
       )
       // 生成目标成员
       const actionMember = _.sample(
@@ -96,7 +100,7 @@ router.post('/push', async (ctx) => {
           },
         },
       })
-      console.log('res', res)
+      // console.log('res', res)
       // atCount add
       MembersModel.update(
         {
