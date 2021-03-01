@@ -12,7 +12,7 @@ stages:
       description: ""
       params:
         workdir: ${git-checkout}
-        build_cmd: 'npm run build'
+        # build_cmd: 'npm run build'
         container_type: herd
         # cpu: 1
         # mem: 4096
