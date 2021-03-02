@@ -128,15 +128,15 @@ environments:
       MYSQL_DATABASE: big_white_test
       TERMINUS_TA_ENABLE: true
     addons:
-      cnooc-app-redis-test-edas:
-        plan: 'alicloud-redis:basic'
-        version: '1.0.0'
+      cnooc-app-rds-test-edas:
+          plan: 'alicloud-rds:basic'
+          version: '1.0.0'
 
   production:
     addons:
-      cnooc-app-redis-prod-edas:
-        plan: 'alicloud-redis:basic'
-        version: '1.0.0'
+      cnooc-app-rds-test-edas:
+          plan: 'alicloud-rds:basic'
+          version: '1.0.0'
     envs:
       NODE_ENV: production
       MYSQL_DATABASE: 'big_white'
