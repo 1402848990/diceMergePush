@@ -6,7 +6,8 @@
   "scripts": {
     "test": "export SERVER_ENV='test' && npm run start",
     "start": "node app.js",
-    "server": "pm2 start app.js"
+    "server": "pm2 start app.js",
+    "build":"echo 'building'"
   },
   "keywords": [],
   "author": "",

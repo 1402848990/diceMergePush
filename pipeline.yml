@@ -23,21 +23,6 @@ stages:
           params:
             bp_args:
               DOMAIN_NAME: ((DOMAIN_NAME))
-              EEVEE_ITEM_ID: ((EEVEE_ITEM_ID))
-              EEVEE_SHOP_ID: ((EEVEE_SHOP_ID))
-              IM_DOMAIN_NAME: ((IM_DOMAIN_NAME))
-              UC_COOKIE_DOMAIN: ((UC_COOKIE_DOMAIN))
-              LOGISTICS_DOMAIN_NAME: ((LOGISTICS_DOMAIN_NAME))
-              ACL_LINK_URL: ((ACL_LINK_URL))
-              DEFAULT_PROVINCEID: ((DEFAULT_PROVINCEID))
-              DEFAULT_CITYID: ((DEFAULT_CITYID))
-              DEFAULT_DISTRICTID: ((DEFAULT_DISTRICTID))
-              SELLER_DOMAIN_NAME: ((SELLER_DOMAIN_NAME))
-              PIPELINE_LIMITED_CPU: ((PIPELINE_LIMITED_CPU))
-              UPLOAD_ALLOW_HTTP: ((UPLOAD_ALLOW_HTTP))
-              WATERMARK_ENABLE: ((WATERMARK_ENABLE))
-              OSS_PATH: ((OSS_PATH))
-              WATERMARK_TEXT: ((WATERMARK_TEXT))
             bp_repo: ((bp.repo.prefix))/dice-bpack-termnodejs.git
             bp_ver: ((bp.repo.default.version))
             context: ${git-checkout}
