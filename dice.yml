@@ -134,8 +134,8 @@ environments:
 
   production:
     addons:
-      cnooc-app-rds-test-edas:
-          plan: 'alicloud-rds:basic'
+     cnooc-app-redis-prod-edas:
+          plan: 'alicloud-redis:basic'
           version: '1.0.0'
     envs:
       NODE_ENV: production
