@@ -11,47 +11,54 @@ envs:
 
 # pipeline 的不同阶段声明。
 stages:
+  - stage:
+      - git-checkout:
+          params:
+            depth: 1
 
-- stage:
-  - git-checkout:
-      params:
-        depth: 1
+  # 部署 node 服务
+  - stage:
+      - buildpack:
+          alias: herd
+          params:
+            bp_args:
+              DOMAIN_NAME: ((DOMAIN_NAME))
+              EEVEE_ITEM_ID: ((EEVEE_ITEM_ID))
+              EEVEE_SHOP_ID: ((EEVEE_SHOP_ID))
+              IM_DOMAIN_NAME: ((IM_DOMAIN_NAME))
+              UC_COOKIE_DOMAIN: ((UC_COOKIE_DOMAIN))
+              LOGISTICS_DOMAIN_NAME: ((LOGISTICS_DOMAIN_NAME))
+              ACL_LINK_URL: ((ACL_LINK_URL))
+              DEFAULT_PROVINCEID: ((DEFAULT_PROVINCEID))
+              DEFAULT_CITYID: ((DEFAULT_CITYID))
+              DEFAULT_DISTRICTID: ((DEFAULT_DISTRICTID))
+              SELLER_DOMAIN_NAME: ((SELLER_DOMAIN_NAME))
+              PIPELINE_LIMITED_CPU: ((PIPELINE_LIMITED_CPU))
+              UPLOAD_ALLOW_HTTP: ((UPLOAD_ALLOW_HTTP))
+              WATERMARK_ENABLE: ((WATERMARK_ENABLE))
+              OSS_PATH: ((OSS_PATH))
+              WATERMARK_TEXT: ((WATERMARK_TEXT))
+            bp_repo: ((bp.repo.prefix))/dice-bpack-termnodejs.git
+            bp_ver: ((bp.repo.default.version))
+            context: ${git-checkout}
+            modules:
+              - name: herd
+                path: .
+          resources:
+            cpu: 1
+            mem: 1024
+  # 构建镜像
+  - stage:
+      - release:
+          params:
+            dice_yml: ${git-checkout}/dice.yml
+            replacement_images:
+              - ${herd}/pack-result
 
-# 部署 node 服务
-- stage:
-  - buildpack:
-      alias: herd
-      params:
-        bp_args:
-          DOMAIN_NAME: ((DOMAIN_NAME))
-          EEVEE_ITEM_ID: ((EEVEE_ITEM_ID))
-          EEVEE_SHOP_ID: ((EEVEE_SHOP_ID))
-          IM_DOMAIN_NAME: ((IM_DOMAIN_NAME))
-          UC_COOKIE_DOMAIN: ((UC_COOKIE_DOMAIN))
-          LOGISTICS_DOMAIN_NAME: ((LOGISTICS_DOMAIN_NAME))
-          ACL_LINK_URL: ((ACL_LINK_URL))
-          DEFAULT_PROVINCEID: ((DEFAULT_PROVINCEID))
-          DEFAULT_CITYID: ((DEFAULT_CITYID))
-          DEFAULT_DISTRICTID: ((DEFAULT_DISTRICTID))
-          SELLER_DOMAIN_NAME: ((SELLER_DOMAIN_NAME))
-          PIPELINE_LIMITED_CPU: ((PIPELINE_LIMITED_CPU))
-          UPLOAD_ALLOW_HTTP: ((UPLOAD_ALLOW_HTTP))
-          WATERMARK_ENABLE: ((WATERMARK_ENABLE))
-          OSS_PATH: ((OSS_PATH))
-          WATERMARK_TEXT: ((WATERMARK_TEXT))
-        bp_repo: ((bp.repo.prefix))/dice-bpack-termnodejs.git
-        bp_ver: ((bp.repo.default.version))
-        context: ${git-checkout}
-        modules:
-        - name: herd
-          path: .
-      resources:
-        cpu: 1
-        mem: 1024
-# 部署
-- stage:
-  - dice:
-      alias: deploy
-      params:
-        time_out: 300
-        release_id_path: ${release}
+  # 部署
+  - stage:
+      - dice:
+          alias: deploy
+          params:
+            time_out: 300
+            release_id_path: ${release}
