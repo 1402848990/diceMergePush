@@ -48,10 +48,10 @@ stages:
       resources:
         cpu: 1
         mem: 1024
-# # 部署
-# - stage:
-#   - dice:
-#       alias: deploy
-#       params:
-#         time_out: 300
-#         release_id_path: ${release}
+# 部署
+- stage:
+  - dice:
+      alias: deploy
+      params:
+        time_out: 300
+        release_id_path: ${release}
