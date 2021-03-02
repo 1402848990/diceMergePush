@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "export SERVER_ENV='test' && npm run start",
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "server": "pm2 start app.js"
   },
   "keywords": [],
