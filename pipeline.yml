@@ -1,7 +1,7 @@
 # REF: http://ci.test.terminus.io/generate
 # 声明 pipeline.yml 的版本。
 # 字段说明：string 类型，注意使用 引号（单、双引号均可）。
-version: '1.1'
+version: "1.1"
 
 # cron: 0 */10 * * * ?
 
