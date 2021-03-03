@@ -10,7 +10,7 @@ services:
     ports:
       - 8081
     resources:
-      cpu: 0.5
+      cpu: 1
       mem: 768
     deployments:
       replicas: 1
@@ -41,7 +41,3 @@ addons:
     plan: "mysql:basic"
     options:
       version: "5.7.23"
-resources:
-        cpu: 1
-        # 单位 MB
-        mem: 768
