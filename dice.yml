@@ -25,19 +25,19 @@ environments:
       NODE_ENV: "test"
       MYSQL_DATABASE: "big_white_test"
       TERMINUS_TA_ENABLE: true
-    addons:
-      bigWhite-rds-write-prod:
-        plan: "alicloud-rds:basic"
-        version: "1.0.0"
+    # addons:
+    #   bigWhite-rds-write-prod:
+    #     plan: "alicloud-rds:basic"
+    #     version: "1.0.0"
   production:
-    addons:
-      bigWhite-rds-write-prod:
-        plan: "alicloud-rds:basic"
-    envs:
-      NODE_ENV: "production"
-      MYSQL_DATABASE: "big_white"
-# addons:
-#   bigWhite-rds-write-prod:
-#     plan: "mysql:basic"
-#     options:
-#       version: "5.7.23"
+    # addons:
+    #   bigWhite-rds-write-prod:
+    #     plan: "alicloud-rds:basic"
+    # envs:
+    #   NODE_ENV: "production"
+    #   MYSQL_DATABASE: "big_white"
+addons:
+  bigWhite-rds-write-prod:
+    plan: "mysql:basic"
+    options:
+      version: "5.7.23"
