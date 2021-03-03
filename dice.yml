@@ -1,142 +1,43 @@
-# version：版本号
-# 可选：NO
-# 值：2.0
-# 说明：version 字段目前只有 2.0 一个版本可选，如果没有配置 version: 2.0 将走老的 dice.yml 逻辑。
-version: 2.0
-
-# envs: 环境变量
-# 可选：YES
-# 说明：此处的 envs 设置全局环境变量，全局环境变量将被下文定义的所有 services 继承；环境变量采用 "key: value" 形式定义，
-# 全局环境并不是必须的。
+version: 2
 envs:
   CSRF_ENABLE: true
   OSS_ENABLE: false
-  # 开启ssr
   ENABLE_SSR: false
-  # ssr异常回滚
   SSR_FALLBACK: false
-  # 以下OSS配置不要出现在这里，直接配置到dice上减少信息泄露
-  # OSS_HOST: ''
-  # OSS_BUCKET: ''
-  # OSS_REGION: ''
-  # OSS_ENDPOINT: ''
-  # OSS_PROVIDER: ''
-  # OSS_STORE_DIR: ''
-  # OSS_ACCESS_KEY_ID: ''
-  # OSS_TARGET_PROTOCOL: ''
-  # OSS_ACCESS_KEY_SECRET: ''
-
-# services: 服务
-# 可选：NO
-# 说明：services 用于定义一个应用里的所有 service，一个正常应用至少需要定义一个 service。
 services:
-  # herd 是一个 service 的名字，你需要根据自己的服务在这里填写正确的名字
   herd:
-    # image: Docker 镜像
-    # 可选: YES
-    # 说明：如果使用 Dice 的 CI 平台来构建镜像、一键部署，那么此处就不需要填镜像。
-    # image: nginx:latest
-
-    # cmd: 服务启动命令
-    # 可选：YES
-    # 说明：
-    cmd: echo 'Start bigWhite service ...' && npm run test
-
-    # ports: 服务监控端口
-    # 可选：NO
-    # 说明：可以配置多个端口
+    cmd: "echo 'Start bigWhite service ...' && npm run test"
     ports:
       - 8081
-
-    # resources: 资源
-    # 可选：NO
     resources:
       cpu: 0.5
-      # 单位 MB
       mem: 768
-      # 单位 MB
-      # disk: 4096
-
-    # deployments: 部署
-    # 可选：NO
-    # 说明：deployments 定义服务的部署配置
     deployments:
-      # replicas: 实例数
-      # 可选：NO
-      # 说明：replicas 不能小于 1，replicas 定义了服务需要被部署几个容器实例。
       replicas: 1
-
-    # depends_on: 服务依赖
-    # 可选：YES
-    # 说明：depends_on 用于描述一个应用里的服务相互依赖关系，被依赖的 service 必须被定义，最终所有 service 不能
-    # 出现循环依赖。
-    #depends_on:
-    # - blog-service
-
-    # expose: 服务导出
-    # 可选：YES
-    # 说明：服务需要被导出的时候，就需要写上 expose 描述，expose 只能导出 80 和 443 端口，也就是服务最终被用户访问的是
-    # 80 或者 443 端口。一般需要被导出的服务都是终端服务，也就是直接面向用户访问的服务，后端服务一般来说不需要导出。
-    #expose:
-    #  - 80
-    #  - 443
-
-    # health_check: 健康检查
-    # 可选：NO
-    # 说明：http, exec 两种方式选一 使用此health_check,可以蓝绿发布
     health_check:
-      # 可选：YES
       http:
-        # 服务开放端口,如8080
         port: 80
-        # 健康检查get请求路径，如/status 如果请求返回状态不是200健康检查不通过
-        path: /health/check
-        # 健康检查时间，超过此时间容器将被kill，如120,单位s
+        path: "/health/check"
         duration: 180
-      # 可选：YES
-      #exec:
-      #在容器内进行健康检查的命令，如echo 1
-      #cmd: curl http://127.0.0.1:8081/health/check
-      #健康检查时间，超过此时间容器将被kill，如120,单位s
-      #duration: 180
-
-# addons: 附加资源
-# 可选：YES
-# 说明：
-# addons:
-#   # retail-mall-mysql:
-#   t-rds-test:
-#     # plan:
-#     # <addon类型>:<规格>
-#     # 可选规格:
-#     # 1. basic
-#     # 2. professional
-#     # 3. ultimate
-#     plan: alicloud-rds:basic
-#     as: MYSQL
-#     # 各种 addon 有不同的 option
-#     options:
-#       version: 5.7.23
-#       create_dbs: eevee3_test
-#   oss:
-#     plan: custom:basic
-
 environments:
   test:
     envs:
-      NODE_ENV: test
-      MYSQL_DATABASE: big_white_test
+      NODE_ENV: "test"
+      MYSQL_DATABASE: "big_white_test"
       TERMINUS_TA_ENABLE: true
     addons:
-     bigWhite-rds-write-prod:
-          plan: 'alicloud-rds:basic'
-          version: '1.0.0'
-
+      bigWhite-rds-write-prod:
+        plan: "alicloud-rds:basic"
+        version: "1.0.0"
   production:
     addons:
-     bigWhite-rds-write-prod:
-          plan: 'alicloud-rds:basic'
-          # version: '1.0.0'
+      bigWhite-rds-write-prod:
+        plan: "alicloud-rds:basic"
     envs:
-      NODE_ENV: production
-      MYSQL_DATABASE: 'big_white'
+      NODE_ENV: "production"
+      MYSQL_DATABASE: "big_white"
+# addons:
+#   bigWhite-rds-write-prod:
+#     plan: "mysql:basic"
+#     options:
+#       version: "5.7.23"
