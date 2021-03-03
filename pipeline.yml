@@ -35,6 +35,9 @@ stages:
   # 构建镜像
   - stage:
       - release:
+      resources:
+            cpu: 1
+            mem: 1024
           params:
             dice_yml: ${git-checkout}/dice.yml
             replacement_images:
@@ -44,6 +47,9 @@ stages:
   - stage:
       - dice:
           alias: deploy
+          resources:
+            cpu: 1
+            mem: 1024
           params:
             time_out: 300
             release_id_path: ${release}
