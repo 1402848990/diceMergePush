@@ -41,3 +41,7 @@ addons:
     plan: "mysql:basic"
     options:
       version: "5.7.23"
+resources:
+        cpu: 1
+        # 单位 MB
+        mem: 768
