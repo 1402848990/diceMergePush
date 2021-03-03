@@ -128,13 +128,13 @@ environments:
       MYSQL_DATABASE: big_white_test
       TERMINUS_TA_ENABLE: true
     addons:
-      cnooc-app-rds-test-edas:
+     bigWhite-rds-write-prod:
           plan: 'alicloud-rds:basic'
           version: '1.0.0'
 
   production:
     addons:
-     cnooc-app-rds-write-prod:
+     bigWhite-rds-write-prod:
           plan: 'alicloud-rds:basic'
           version: '1.0.0'
     envs:
