@@ -136,7 +136,7 @@ environments:
     addons:
      bigWhite-rds-write-prod:
           plan: 'alicloud-rds:basic'
-          version: '1.0.0'
+          # version: '1.0.0'
     envs:
       NODE_ENV: production
       MYSQL_DATABASE: 'big_white'
