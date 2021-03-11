@@ -62,9 +62,6 @@ router.post('/push', async (ctx) => {
     const membersList = await getMembersList()
     // 转为小写
     content = content.toLocaleLowerCase()
-    // 提取权限
-    const level = content.split('ok')[1][0]
-    console.log('level', level)
     if (content && content.includes('ok')) {
       /**
        * 不完全随机指定成员处理合并请求
@@ -72,6 +69,9 @@ router.post('/push', async (ctx) => {
        * 2.不包括请假人员
        * 3.根据权限匹配分组
        */
+      // 提取权限
+      const level = content.split('ok')[1][0]
+      console.log('level', level)
       // 筛选符合条件的成员
       const handleMembers = membersList.filter((item) =>
         level
@@ -130,6 +130,32 @@ router.post('/push', async (ctx) => {
           },
         },
       })
+    } else if (content && content.includes('请假')) {
+      const name = content.match(/【(\S*)】/)[1]
+      console.log('name', name)
+      const res = await MembersModel.update(
+        {
+          status: 0,
+        },
+        {
+          where: {
+            name,
+          },
+        }
+      )
+      console.log('res', res)
+      if(res[0]){
+        await axios({
+          url,
+          method: 'post',
+          data: {
+            msgtype: 'text',
+            text: {
+              content: `【${name}】请假，设定成功`,
+            },
+          },
+        })
+      }
     } else {
       await axios({
         url,
