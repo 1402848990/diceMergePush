@@ -44,9 +44,6 @@ stages:
   - stage:
       - dice:
           alias: deploy
-          resources:
-            cpu: 1
-            mem: 1024
           params:
             time_out: 300
             release_id_path: ${release}
