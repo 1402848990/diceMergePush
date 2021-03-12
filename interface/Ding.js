@@ -156,7 +156,34 @@ router.post('/push', async (ctx) => {
           },
         })
       }
-    } else {
+    } else if (content && content.includes('销假')) {
+      const name = content.match(/【(\S*)】/)[1]
+      console.log('name', name)
+      const res = await MembersModel.update(
+        {
+          status: 1,
+        },
+        {
+          where: {
+            name,
+          },
+        }
+      )
+      console.log('res', res)
+      if(res[0]){
+        await axios({
+          url,
+          method: 'post',
+          data: {
+            msgtype: 'text',
+            text: {
+              content: `欢迎【${name}】，回到工作岗位`,
+            },
+          },
+        })
+      }
+    }
+     else {
       await axios({
         url,
         method: 'post',
