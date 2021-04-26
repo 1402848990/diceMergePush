@@ -10,8 +10,8 @@ services:
     ports:
       - 8081
     resources:
-      cpu: 1
-      mem: 768
+      cpu: 0.2
+      mem: 200
     deployments:
       replicas: 1
     health_check:
