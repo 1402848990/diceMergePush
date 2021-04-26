@@ -30,15 +30,15 @@ environments:
     #     plan: "alicloud-rds:basic"
     #     version: "1.0.0"
   production:
-    # addons:
-    #   bigWhite-rds-write-prod:
-    #     plan: "alicloud-rds:basic"
-    # envs:
-    #   NODE_ENV: "production"
-    #   MYSQL_DATABASE: "big_white"
-addons:
-  mysql:
-    plan: "mysql:basic"
-    options:
-      version: "5.7.23"
-      create_dbs: big_white
+    addons:
+      bigWhite-rds-write-prod:
+        plan: "alicloud-rds:basic"
+    envs:
+      NODE_ENV: "production"
+      MYSQL_DATABASE: "big_white"
+# addons:
+#   mysql:
+#     plan: "mysql:basic"
+#     options:
+#       version: "5.7.23"
+#       create_dbs: big_white
