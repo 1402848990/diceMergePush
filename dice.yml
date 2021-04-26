@@ -37,7 +37,7 @@ environments:
     #   NODE_ENV: "production"
     #   MYSQL_DATABASE: "big_white"
 addons:
-  bigWhite-rds-write-prod:
+  mysql:
     plan: "mysql:basic"
     options:
       version: "5.7.23"
