@@ -62,7 +62,7 @@ router.post('/push', async (ctx) => {
     const membersList = await getMembersList()
     // 转为小写
     content = content.toLocaleLowerCase()
-    if (content && content.includes('ok')) {
+    if (content.includes('ok')) {
       /**
        * 不完全随机指定成员处理合并请求
        * 1.不包括当前用户
@@ -112,7 +112,7 @@ router.post('/push', async (ctx) => {
           },
         }
       )
-    } else if (content && content.includes('查询')) {
+    } else if (content.includes('查询')) {
       // 查询
       const res = await getMemberInfo(senderNick)
       const memberInfo = JSON.parse(JSON.stringify(res))
@@ -130,7 +130,7 @@ router.post('/push', async (ctx) => {
           },
         },
       })
-    } else if (content && content.includes('请假')) {
+    } else if (content.includes('请假')) {
       const name = content.match(/【(\S*)】/)[1]
       console.log('name', name)
       const res = await MembersModel.update(
@@ -156,7 +156,7 @@ router.post('/push', async (ctx) => {
           },
         })
       }
-    } else if (content && content.includes('销假')) {
+    } else if (content.includes('销假')) {
       const name = content.match(/【(\S*)】/)[1]
       console.log('name', name)
       const res = await MembersModel.update(
